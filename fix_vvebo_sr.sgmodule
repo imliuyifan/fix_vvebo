@@ -1,0 +1,15 @@
+
+#!name= VVebo
+#!desc=修复 VVebo 用户主页时间线显示和粉丝列表
+#!author=Yifan 
+#!category=weibo
+
+[Script]
+
+fix_timeline_request = type=http-request,script-path=fix_vvebo_user_profile.js,pattern=^https:\/\/api\.weibo\.cn\/2\/(users\/show\?|statuses\/user_timeline\?),max-size=0,requires-body=true,timeout=10,script-update-interval=0,enable=true
+fix_timeline_response = type=http-response,script-path=fix_vvebo_user_profile.js,pattern=^https:\/\/api\.weibo\.cn\/2\/profile\/statuses\/tab\?,max-size=0,requires-body=true,timeout=10,script-update-interval=0,enable=true
+fix_unread_count = type=http-request,script-path=fix_vvebo_user_profile.js,pattern=^https:\/\/api\.weibo\.cn\/2\/remind\/unread_count\?,max-size=131072,timeout=10,script-update-interval=0,enable=true
+fix_fans = type=http-response,script-path=fix_vvebo_fans.js,pattern=^https:\/\/api\.weibo\.cn\/2\/cardlist\?,max-size=131072,requires-body=true,timeout=10,script-update-interval=0,enable=true
+[MITM]
+
+hostname = %APPEND% api.weibo.cn
